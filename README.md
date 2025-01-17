@@ -66,3 +66,7 @@ mvn spring-boot:run
 ## API Endpoints
 
 ### Full API documentation is available in the project report.
+
+### All users have password "user", and admin has password "admin"
+### CLIENTS:     "sunny"     ,  "bluefox"
+### FREELANCERS: "happystar" ,  "coolbuddy" 
