@@ -89,27 +89,4 @@ public class UserController {
             return "index";
         }
     }
-
-    @GetMapping("/users")
-    public String showUsers(Model model){
-        model.addAttribute("users", userService.getUsers());
-        model.addAttribute("roles", roleRepository.findAll());
-        return "auth/users";
-    }
-
-    @GetMapping("/user/{user_id}")
-    public String showUser(@PathVariable Integer user_id, Model model){
-        model.addAttribute("user", userService.getUser(user_id));
-        return "auth/user";
-    }
-
-    @PostMapping("/user/{user_id}")
-    public String saveUser(@PathVariable Integer user_id, @ModelAttribute("user") User user, Model model) {
-        User the_user = (User) userService.getUser(user_id);
-        the_user.setEmail(user.getEmail());
-        the_user.setUsername(user.getUsername());
-        userService.updateUser(the_user);
-        model.addAttribute("users", userService.getUsers());
-        return "auth/users";
-    }
 }
