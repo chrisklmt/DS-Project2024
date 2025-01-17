@@ -42,16 +42,16 @@ by verifying users and managing assignments.
 ### 1. Installation & Setup
 - Clone the Repository
 ```sh
-git clone [GitHub Repository Link]
+git clone [https://github.com/chrisklmt/DS-Project2024.git]
 cd /to/project/folder
 ```
 
 ### 2. Configure the Database
 Modify the application.properties file with your database credentials:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/dsproject2024
-spring.datasource.username=root
-spring.datasource.password=yourpassword
+spring.datasource.url=jdbc:postgresql://cu53tvpu0jms73fe7edg-a.frankfurt-postgres.render.com:5432/dsdb_gwq1
+spring.datasource.username=dsuser
+spring.datasource.password=ez5fuekyswnNelefC8mOif0s6ZpVUsmf
 spring.jpa.hibernate.ddl-auto=update
 ```
 
@@ -64,28 +64,5 @@ mvn spring-boot:run
 ---
 
 ## API Endpoints
-<b><u>Authentication</u></b>
-
-- <b>POST /auth/register – User registration</b>
-
-- <b>POST /auth/login – User login</b>
-
-
-<b><u>Projects</u></b>
-
-- <b>POST /projects – Create a new project (Client)</b>
-
-- <b>GET /projects/{id} – View project details</b>
-
-- <b>PUT /projects/{id} – Update project (Client)</b>
-
-<b><u>Requests & Assignments</u></b>
-
-- <b>POST /requests – Freelancer applies for a project</b>
-
-- <b>PUT /requests/{id}/approve – Client approves/rejects application</b>
-
-- <b>POST /assignments – Admin assigns freelancer to a project</b>
-
 
 ### Full API documentation is available in the project report.
