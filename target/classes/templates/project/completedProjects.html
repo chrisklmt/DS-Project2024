@@ -2,23 +2,16 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{page_layout/layout}"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      layout:decorate="~{page_layout/layout}">
 
 <head>
     <meta charset="UTF-8">
-    <title>Projects</title>
+    <title>Completed Projects</title>
 </head>
 <body>
 <div layout:fragment="main-content">
-    <div th:if="${ not#lists.isEmpty(projects)}">
-        <h3>All Projects</h3>
-        <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <a href="/project/projectStatus" class="btn btn-primary">Show Pending Projects</a>
-            <a href="/project/projectPending" class="btn btn-primary">Show Rejected Projects</a>
-            <a href="/project/projectOutdated" class="btn btn-primary">Show Outdated Projects</a>
-        </div>
-
+    <div th:if="${ not#lists.isEmpty(completedProjects)}">
+        <h3>All Completed Projects</h3>
         <table class="table">
             <thead>
             <tr>
@@ -30,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="project : ${projects}">
+            <tr th:each="project : ${completedProjects}">
                 <td th:text="${project.title}"></td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.paymentAmount}"></td>
@@ -40,8 +33,8 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${ #lists.isEmpty(projects)}">
-        <h3>No Projects found!!</h3>
+    <div th:if="${ #lists.isEmpty(completedProjects)}">
+        <h3>No Completed Projects found!</h3>
     </div>
 </div>
 </body>
