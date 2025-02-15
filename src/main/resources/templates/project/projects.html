@@ -11,11 +11,11 @@
 </head>
 <body>
 <div layout:fragment="main-content">
-    <div th:if="${ not#lists.isEmpty(projects)}">
+    <div th:if="${ not#lists.isEmpty(acceptedProjects)}">
         <h3>All Projects</h3>
         <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <a href="/project/projectStatus" class="btn btn-primary">Show Pending Projects</a>
-            <a href="/project/projectPending" class="btn btn-primary">Show Rejected Projects</a>
+            <a href="/project/projectsPending" class="btn btn-primary">Show Pending Projects</a>
+            <a href="/project/projectsRejected" class="btn btn-primary">Show Rejected Projects</a>
         </div>
 
         <table class="table">
@@ -29,18 +29,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="project : ${projects}">
+            <tr th:each="project : ${acceptedProjects}">
                 <td th:text="${project.title}"></td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.paymentAmount}"></td>
-                <td th:text="${project.getProjectStatus()}"></td>
-                <td th:text="${project.getDeadline()}"></td>
+                <td th:text="${project.projectStatus}"></td>
+                <td th:text="${project.deadline}"></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${ #lists.isEmpty(projects)}">
-        <h3>No Projects found!!</h3>
+    <div th:if="${ #lists.isEmpty(acceptedProjects)}">
+        <h3>No Accepted Projects found!</h3>
     </div>
 </div>
 </body>

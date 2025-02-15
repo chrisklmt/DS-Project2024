@@ -27,8 +27,8 @@
                 <td th:text="${project.title}"></td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.paymentAmount}"></td>
-                <td th:text="${project.getProjectStatus()}"></td>
-                <td th:text="${project.getDeadline()}"></td>
+                <td th:text="${project.projectStatus}"></td>
+                <td th:text="${project.deadline}"></td>
                 <td>
                     <form th:action="@{'/project/accept-project/' + ${project.id}}" method="post" sec:authorize="hasRole('ROLE_ADMIN')">
                         <button type="submit" class="btn btn-success">Accept Project</button>

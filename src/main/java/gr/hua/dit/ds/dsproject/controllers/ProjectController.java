@@ -37,11 +37,11 @@ public class  ProjectController {
         this.projectRepository = projectRepository;
     }
 
-    @GetMapping("")
-    public String showProjects(Model model){
-        model.addAttribute("projects", projectService.getProjects());
-        return "project/projects";
-    }
+//    @GetMapping("")
+//    public String showProjects(Model model){
+//        model.addAttribute("projects", projectService.getProjects());
+//        return "project/projects";
+//    }
 
     @GetMapping("/new")
     public String addProject(Model model){
@@ -93,13 +93,19 @@ public class  ProjectController {
         return "request/myrequests";
     }
 
+    @GetMapping("/projectsPending")
+    public String showPendingProjects(Model model) {
+        model.addAttribute("projects", projectService.getProjectsPending());
+        return "project/projectsPending";
+    }
+
     @PostMapping("accept-project/{projectId}")
     public String acceptProject(@PathVariable int projectId,Model model) {
         Project project = projectService.getProject(projectId);
         project.setProjectStatus(Accepted);
         projectService.saveProject(project);
-        model.addAttribute("projects", projectService.getProjects());
-        return "project/projects";
+        model.addAttribute("projects", projectService.getProjectsPending());
+        return "project/projectsPending";
     }
 
     @PostMapping("reject-project/{projectId}")
@@ -107,27 +113,20 @@ public class  ProjectController {
         Project project = projectService.getProject(projectId);
         project.setProjectStatus(Rejected);
         projectService.saveProject(project);
-        model.addAttribute("projects", projectService.getProjects());
-        return "project/projects";
-    }
-
-    @GetMapping("/projectStatus")
-    public String showProjectToEditStatus(Model model) {
         model.addAttribute("projects", projectService.getProjectsPending());
-        return "project/projectStatus";
+        return "project/projectsPending";
     }
 
-    @GetMapping("/projectPending")
-    public String deleteProjectRejected(Model model) {
+    @GetMapping("/projectsRejected")
+    public String showRejectedProjects(Model model) {
         model.addAttribute("projects", projectService.getRejectedProjects());
         return "project/projectsRejected";
     }
     @PostMapping("deleteProject/{projectId}")
     public String deleteProjectRejected(@PathVariable int projectId, Model model) {
-        Project project = projectService.getProject(projectId);
         projectService.deleteProject(projectId);
-        model.addAttribute("projects", projectService.getProjects());
-        return "project/projects";
+        model.addAttribute("projects", projectService.getRejectedProjects());
+        return "project/projectsRejected";
     }
 
     @GetMapping("/projectsUnassigned")
@@ -135,6 +134,19 @@ public class  ProjectController {
         Client currentClient = clientService.getCurrentClient();
         model.addAttribute("projectsUnassigned", projectService.getUnassignedProjects(currentClient));
         return "project/projectsUnassigned";
+    }
+
+    @GetMapping("/projectsΑssigned")
+    public String showAssignedProjects(Model model) {
+        Client currentClient = clientService.getCurrentClient();
+        model.addAttribute("assignedProjects", projectService.getAssignedProjects(currentClient));
+        return "project/projectsΑssigned";
+    }
+
+    @GetMapping("")
+    public String showAcceptedProjects(Model model) {
+        model.addAttribute("acceptedProjects", projectService.getAcceptedProjects());
+        return "project/projects";
     }
 }
 

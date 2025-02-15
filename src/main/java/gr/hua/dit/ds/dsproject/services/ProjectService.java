@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class ProjectService {
         List<Project> projects = projectRepository.findAll();
         List<Project> projectsAccepted = new ArrayList<>();
         for (Project p : projects) {
-            if(p.getProjectStatus().equals(Status.Accepted)){
+            if(p.getProjectStatus().equals(Status.Accepted) && p.getDeadline().isAfter(LocalDate.now())){
                 projectsAccepted.add(p);
             }
         }
@@ -148,12 +149,23 @@ public class ProjectService {
         List<Project> unassignedProjects = new ArrayList<>();
 
         for (Project project : projects) {
-            if (project.getAssignment() == null && project.getClient() == client && project.getProjectStatus() == Status.Accepted) {
+            if (project.getAssignment() == null && project.getClient() == client
+                    && project.getProjectStatus() == Status.Accepted) {
                 unassignedProjects.add(project);
             }
         }
         return unassignedProjects;
     }
 
-
+    @Transactional
+    public List<Project> getAssignedProjects(Client client) {
+        List<Project> projects = projectRepository.findAll();
+        List<Project> assignedProjects = new ArrayList<>();
+        for (Project p : projects) {
+            if (p.getClient().equals(client) && p.getAssignment() != null) {
+                assignedProjects.add(p);
+            }
+        }
+        return assignedProjects;
+    }
 }
