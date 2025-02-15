@@ -78,8 +78,9 @@ public class FreelancerController {
         List<Project> acceptedProjects = projectService.getAcceptedProjects();
         List<Project> requestedProjects = projectService.getRequestedProjects(acceptedProjects,freelancer.getRequests());
         List<Project> notRequestedNotAssignedProjects = projectService.getNotRequestedAndUnassignedProjects(acceptedProjects, requestedProjects);
+        List<Project> notOutdated = projectService.getProjectNotOutDated(notRequestedNotAssignedProjects);
 
-        model.addAttribute("notRequestedProjects", notRequestedNotAssignedProjects);
+        model.addAttribute("notRequestedProjects", notOutdated);
         model.addAttribute("freelancerVerified", freelancer.getVerified());
         return "project/projectsForFreelancer";
     }

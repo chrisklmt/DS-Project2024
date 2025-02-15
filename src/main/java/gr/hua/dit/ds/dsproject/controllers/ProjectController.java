@@ -37,12 +37,6 @@ public class  ProjectController {
         this.projectRepository = projectRepository;
     }
 
-//    @GetMapping("")
-//    public String showProjects(Model model){
-//        model.addAttribute("projects", projectService.getProjects());
-//        return "project/projects";
-//    }
-
     @GetMapping("/new")
     public String addProject(Model model){
         Project project = new Project();
@@ -147,6 +141,26 @@ public class  ProjectController {
     public String showAcceptedProjects(Model model) {
         model.addAttribute("acceptedProjects", projectService.getAcceptedProjects());
         return "project/projects";
+    }
+
+    @GetMapping("/unassignedANDoutdated")
+    public String showUnassignedAndOutdatedProjects(Model model) {
+        Client currentClient = clientService.getCurrentClient();
+        model.addAttribute("projectsUnassignedAndOutdated", projectService.getUnassignedAndOutdatedProjects(currentClient));
+        return "project/unassignedANDoutdated";
+    }
+
+    @GetMapping("/projectOutdated")
+    public String showProjectsOutdated(Model model) {
+        model.addAttribute("projects", projectService.getAllOutdatedProjects());
+        return "project/projectOutdated";
+    }
+
+    @GetMapping("/completedProjects")
+    public String showCompletedProjects(Model model) {
+        Client currentClient = clientService.getCurrentClient();
+        model.addAttribute("completedProjects", projectService.getCompletedeProjects(currentClient));
+        return "project/completedProjects";
     }
 }
 

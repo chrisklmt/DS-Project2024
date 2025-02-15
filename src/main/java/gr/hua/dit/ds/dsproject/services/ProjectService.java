@@ -36,11 +36,35 @@ public class ProjectService {
         List<Project> projects = projectRepository.findAll();
         List<Project> projectsPending = new ArrayList<>();
         for (Project p : projects) {
-            if(p.getProjectStatus().equals(Status.Pending)){
+            if(p.getProjectStatus().equals(Status.Pending) && p.getDeadline().isAfter(LocalDate.now())){
                 projectsPending.add(p);
             }
         }
         return projectsPending;
+    }
+
+    @Transactional
+    public List<Project> getAllOutdatedProjects(){
+        List<Project> projects = projectRepository.findAll();
+        List<Project> projectsOutdated = new ArrayList<>();
+        for (Project p : projects) {
+            if(p.getDeadline().isBefore(LocalDate.now())){
+                projectsOutdated.add(p);
+            }
+        }
+        return projectsOutdated;
+    }
+
+    @Transactional
+    public List<Project> getProjectNotOutDated(List <Project> FilterProjects){
+        List<Project> projectsNotOutdated = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        for (Project p : FilterProjects) {
+            if(p.getDeadline().isAfter(today)){
+                projectsNotOutdated.add(p);
+            }
+        }
+        return projectsNotOutdated;
     }
 
     @Transactional
@@ -167,5 +191,34 @@ public class ProjectService {
             }
         }
         return assignedProjects;
+    }
+    @Transactional
+    public List<Project> getUnassignedAndOutdatedProjects(Client  client) {
+        List<Project> unassignedProjects = getUnassignedProjects(client);
+        List<Project> UnassignedAndOutdated = new ArrayList<>();
+
+        for (Project project : unassignedProjects) {
+            if (project.getDeadline().isBefore(LocalDate.now())) {
+                UnassignedAndOutdated.add(project);
+            }
+        }
+        return UnassignedAndOutdated;
+    }
+
+    @Transactional
+    public List<Project> getCompletedeProjects(Client  client) {
+        List<Project> projects = projectRepository.findAll();
+        List<Project> completedProjects = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+
+
+        for (Project project : projects) {
+            if (project.getAssignment() != null && project.getClient() == client &&
+                    project.getProjectStatus() == Status.Accepted
+                    && project.getDeadline().isBefore(today)) {
+                completedProjects.add(project);
+            }
+        }
+        return completedProjects;
     }
 }

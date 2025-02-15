@@ -11,6 +11,9 @@
 <body>
 <div layout:fragment="main-content">
     <div th:if="${ not#lists.isEmpty(projectsUnassigned)}">
+
+        <a href="/project/unassignedANDoutdated" class="btn btn-primary">Unassigned and Outdated Projects</a>
+
         <h3>All Unassigned Projects</h3>
         <table class="table">
             <thead>

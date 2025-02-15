@@ -6,15 +6,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Unassigned Projects</title>
+    <title>Unassigned and Outdated Projects</title>
 </head>
 <body>
 <div layout:fragment="main-content">
-    <div th:if="${ not#lists.isEmpty(projectsUnassigned)}">
-
-        <a href="/project/unassignedANDoutdated" class="btn btn-primary">Unassigned and Outdated Projects</a>
-
-        <h3>All Unassigned Projects</h3>
+    <div th:if="${ not#lists.isEmpty(projectsUnassignedAndOutdated)}">
+        <h3>All Unassigned and Outdated Projects</h3>
         <table class="table">
             <thead>
             <tr>
@@ -26,24 +23,23 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="project : ${projectsUnassigned}">
+            <tr th:each="project : ${projectsUnassignedAndOutdated}">
                 <td th:text="${project.title}"></td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.paymentAmount}"></td>
-                <td th:text="${project.projectStatus}"></td>
-                <td th:text="${project.deadline}"></td>
+                <td th:text="${project.getProjectStatus()}"></td>
+                <td th:text="${project.getDeadline()}"></td>
                 <td>
-                    <form th:action="@{/client/application/applications}" method="post">
-                        <input type="hidden" th:value="${project.id}" name="projectId"/>
-                        <button type="submit" class="btn btn-outline-primary">Freelancer's requests</button>
+                    <form th:action="@{'/project/deleteProject/'+ ${project.id}}" method="post">
+                      <button type="submit" class="btn btn-danger">Delete project</button>
                     </form>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${ #lists.isEmpty(projectsUnassigned)}">
-        <h3>No Unassigned Accepted Projects found!</h3>
+    <div th:if="${ #lists.isEmpty(projectsUnassignedAndOutdated)}">
+        <h3>No Unassigned and Outdated Projects found!</h3>
     </div>
 </div>
 </body>
